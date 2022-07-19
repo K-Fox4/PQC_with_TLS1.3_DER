@@ -1,31 +1,41 @@
-from flask import Flask, jsonify, request
+from flask import Flask
+from flask_restful import Api
+from flask_jwt import JWT
+
+from resources import DERInfo, GatewayRegister
+from security import authenticate, identity
+from db import db
+
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///der_data.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.secret_key = "KaLyAnNaKkA"
+
+db.init_app(app=app)
+
+api = Api(app)
 
 
-# Home endpoint, can be used for testing
-@app.route("/")
-def home():
-    return "PQC-enabled TLS 1.3 based HTTPS environment for DERMS & DER Network"
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 
-# POST endpoint, to save the DER Network information
+# /auth URI
+jwt = JWT(
+    app=app,
+    authentication_handler=authenticate,
+    identity_handler=identity
+)
 
-# DER Network information JSON structure
-# {
-#   "mf_model": "Model-1",
-#   "sfdi": "097935300833",
-#   "battery_status": "3",
-#   "ess_qe": "1.0",
-#   "passed_time": "25",
-#   "current_power_source": "1",
-#   "command": "0"
-# }
+# /derinfo URI
+api.add_resource(DERInfo, "/derinfo")
 
-@app.route("/der", methods=["POST"])
-def save_der_network_info():
-    request_data = request.get_json()
+# /gway_register URI
+api.add_resource(GatewayRegister, "/gway_register")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(port=5684)
