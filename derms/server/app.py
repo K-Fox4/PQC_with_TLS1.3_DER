@@ -1,9 +1,7 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt import JWT
 
-from resources import DERInfo, GatewayRegister
-from security import authenticate, identity
+from resources import DERInfo
 from db import db
 
 
@@ -23,18 +21,8 @@ def create_tables():
     db.create_all()
 
 
-# /auth URI
-jwt = JWT(
-    app=app,
-    authentication_handler=authenticate,
-    identity_handler=identity
-)
-
 # /derinfo URI
 api.add_resource(DERInfo, "/derinfo")
-
-# /gway_register URI
-api.add_resource(GatewayRegister, "/gway_register")
 
 
 if __name__ == '__main__':

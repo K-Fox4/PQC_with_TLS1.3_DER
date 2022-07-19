@@ -1,5 +1,4 @@
 from flask_restful import Resource, reqparse
-from flask_jwt import jwt_required
 
 from models import DERInfoModel
 
@@ -50,13 +49,11 @@ class DERInfo(Resource):
         help="This field cannot be blank"
     )
 
-    @jwt_required()
     def get(self):
         return {
-            "message": "PQC-enabled TLS 1.3 based HTTPS environment for DERMS & DER Network"
+            "der_info": list(map(lambda x: x.json(), DERInfoModel.query.all()))
         }
 
-    @jwt_required()
     def post(self):
         data = DERInfo.parser.parse_args()
 
