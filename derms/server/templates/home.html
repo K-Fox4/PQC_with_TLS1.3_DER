@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block refresh %}
+<meta http-equiv="refresh" content="10">
+{% endblock %}
+
+{% block page_content %}
+<h1 class="page__head">DER Networks</h1>
+<main class="main">
+    <section>
+        {% for der in ders %}
+        <article class="der">
+            <div class="der__body">
+                <div class="der__name">{{ der['der_name'] }}</div>
+                <div class="der__content">
+                    <div class="der__metadata">
+                        <div class="der__pairs">
+                            <div class="der__attr-key">Model:</div>
+                            <div class="der__attr">{{ der['mf_model'] }}</div>
+                        </div>
+                        <div class="der__pairs">
+                            <div class="der__attr-key">SFDI:</div>
+                            <div class="der__attr">{{ der['sfdi'] }}</div>
+                        </div>
+                    </div>
+                    <div class="der__props">
+                        <div class="der__pairs">
+                            <div class="der__attr-key">ESS - Reactive Power:</div>
+                            <div class="der__attr">{{ der['ess_qe'] }}</div>
+                        </div>
+                        <div class="der__pairs">
+                            <div class="der__attr-key">Battery Status:</div>
+                            <div class="der__attr">{{ der['battery_status'] }}</div>
+                        </div>
+                        <div class="der__pairs">
+                            <div class="der__attr-key">Current Power Source:</div>
+                            <div class="der__attr">{{ der['current_power_source'] }}</div>
+                        </div>
+                        <div class="der__pairs">
+                            <div class="der__attr-key">Passed Time:</div>
+                            <div class="der__attr">{{ der['passed_time'] }}</div>
+                        </div>
+                        <div class="der__pairs">
+                            <div class="der__attr-key">Control Command:</div>
+                            <div class="der__attr">{{ der['command'] }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

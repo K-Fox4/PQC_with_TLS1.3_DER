@@ -1,11 +1,17 @@
 from flask_restful import Resource, reqparse
 
-from models import DERInfoModel
+from models import DERInfoModel, DERAllInfoModel
 
 
 class DERInfo(Resource):
 
     parser = reqparse.RequestParser()
+    parser.add_argument(
+        "der_name",
+        type=str,
+        required=True,
+        help="This field cannot be blank"
+    )
     parser.add_argument(
         "mf_model",
         type=str,
@@ -49,6 +55,7 @@ class DERInfo(Resource):
         help="This field cannot be blank"
     )
 
+    # Testing the API's data storing functionality
     def get(self):
         return {
             "der_info": list(map(lambda x: x.json(), DERInfoModel.query.all()))
@@ -57,6 +64,7 @@ class DERInfo(Resource):
     def post(self):
         data = DERInfo.parser.parse_args()
 
+        # Add data to DER Info table
         der_info = DERInfoModel.find_by_sfdi(data["sfdi"])
         if der_info:
             der_info.battery_status = data["battery_status"]
@@ -68,4 +76,9 @@ class DERInfo(Resource):
             der_info = DERInfoModel(**data)
 
         der_info.save_to_db()
+
+        # Add data to DER All Info table
+        der_all_info = DERAllInfoModel(**data)
+        der_all_info.save_to_db()
+
         return der_info.json(), 201

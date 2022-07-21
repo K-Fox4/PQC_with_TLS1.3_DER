@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block refresh %}
+<meta http-equiv="refresh" content="10">
+{% endblock %}
+
+{% block page_content %}
+<h1 class="page__head">DER Networks Visualization</h1>
+<main class="main">
+    <section>
+        {% for der in ders %}
+        <article class="der">
+            <div class="der__body">
+                <div class="der__name">{{ der['der_name'] }}</div>
+                <div class="der__content">
+                    <img class="der__image" src="static/images/pow_vs_time_plot_{{ der['sfdi'] }}.svg" alt="Plot for {{ der['sfdi'] }}">
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

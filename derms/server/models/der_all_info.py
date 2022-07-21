@@ -1,9 +1,9 @@
 from db import db
 
 
-class DERInfoModel(db.Model):
+class DERAllInfoModel(db.Model):
 
-    __tablename__ = "der_info"
+    __tablename__ = "der_all_info"
 
     der_id = db.Column(db.Integer, primary_key=True)
     der_name = db.Column(db.String(80))
@@ -50,5 +50,5 @@ class DERInfoModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def find_by_sfdi(cls, sfdi):
-        return cls.query.filter_by(sfdi=sfdi).first()
+    def find_all_by_sfdi(cls, sfdi):
+        return cls.query.filter_by(sfdi=sfdi).all()
