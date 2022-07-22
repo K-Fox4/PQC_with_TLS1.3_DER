@@ -74,6 +74,11 @@ body {
     overflow: scroll;
 }
 
+.der__section {
+    display: flex;
+    flex-direction: column;
+}
+
 .der__body {
     margin-bottom: 20px;
     padding: 10px;
@@ -130,6 +135,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.der__people {
+    display: flex;
+    flex-direction: column;
 }
 
 .footer {
